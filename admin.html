@@ -1,52 +1,320 @@
- <meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Administração - Sam Ofertas</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="admin.css">
+    <title>Sam Store - Painel Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-100 font-lato">
-    <div id="loginSection" class="min-h-screen flex items-center justify-center">
-        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-            <h2 class="text-2xl font-bold mb-6 text-center text-blue-900">Acesso ao Painel</h2>
-            <input type="password" id="adminPassword" class="w-full p-3 mb-4 border rounded-lg" placeholder="Digite a senha">
-            <button id="loginButton" class="bg-orange-500 text-white px-4 py-2 rounded-full w-full hover:bg-orange-600">Entrar</button>
-            <p id="loginError" class="text-red-500 text-sm mt-2 hidden">Senha incorreta!</p>
+<body class="bg-gray-100 font-sans">
+    <!-- Header -->
+    <header class="bg-yellow-400 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="index.html" class="text-2xl font-bold text-gray-800">Sam Store</a>
+            </div>
+            <div>
+                <button id="logoutBtn" class="hidden text-gray-800 hover:text-blue-600"><i class="fas fa-sign-out-alt"></i> Sair</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Section -->
+    <section id="loginSection" class="container mx-auto px-4 py-6 flex justify-center">
+        <div class="bg-white p-6 rounded-lg shadow w-full max-w-md">
+            <h2 class="text-xl font-semibold mb-4">Login do Administrador</h2>
+            <form id="loginForm">
+                <div class="mb-4">
+                    <label class="block mb-1">Usuário</label>
+                    <input type="text" id="adminUsername" required class="w-full p-2 border rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Senha</label>
+                    <input type="password" id="adminPassword" required class="w-full p-2 border rounded">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Entrar</button>
+            </form>
+            <p id="loginError" class="text-red-500 mt-2 hidden">Usuário ou senha incorretos.</p>
+        </div>
+    </section>
+
+    <!-- Admin Panel (hidden until login) -->
+    <section id="adminPanel" class="container mx-auto px-4 py-6 hidden">
+        <h2 class="text-xl font-semibold mb-4">Painel de Administração - Sam Store</h2>
+        
+        <!-- Add Product Form -->
+        <div class="bg-white p-6 rounded-lg shadow mb-6">
+            <h3 class="text-lg font-semibold mb-4">Adicionar Novo Produto</h3>
+            <form id="addProductForm">
+                <div class="mb-4">
+                    <label class="block mb-1">Título</label>
+                    <input type="text" id="productTitle" required class="w-full p-2 border rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Preço (R$)</label>
+                    <input type="number" id="productPrice" step="0.01" required class="w-full p-2 border rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Desconto (%)</label>
+                    <input type="number" id="productDiscount" min="0" max="100" class="w-full p-2 border rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Categoria</label>
+                    <select id="productCategory" required class="w-full p-2 border rounded">
+                        <option value="Eletrônicos">Eletrônicos</option>
+                        <option value="Moda">Moda</option>
+                        <option value="Casa">Casa</option>
+                        <option value="Esportes">Esportes</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Condição</label>
+                    <select id="productCondition" required class="w-full p-2 border rounded">
+                        <option value="Novo">Novo</option>
+                        <option value="Usado">Usado</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Imagem (URL)</label>
+                    <input type="url" id="productImage" required class="w-full p-2 border rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Descrição</label>
+                    <textarea id="productDescription" required class="w-full p-2 border rounded"></textarea>
+                </div>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Adicionar Produto</button>
+            </form>
+        </div>
+
+        <!-- Product Management Table -->
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="text-lg font-semibold mb-4">Gerenciar Produtos</h3>
+            <table class="w-full table-auto">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="p-2">ID</th>
+                        <th class="p-2">Título</th>
+                        <th class="p-2">Preço</th>
+                        <th class="p-2">Desconto</th>
+                        <th class="p-2">Categoria</th>
+                        <th class="p-2">Condição</th>
+                        <th class="p-2">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="productTableBody">
+                    <!-- Products will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Edit Product Modal -->
+    <div id="editProductModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg w-full max-w-md">
+            <h2 class="text-xl font-semibold mb-4">Editar Produto</h2>
+            <form id="editProductForm">
+                <input type="hidden" id="editProductId">
+                <div class="mb-4">
+                    <label class="block mb-1">Título</label>
+                    <input type="text" id="editProductTitle" required class="w-full p-2 border rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Preço (R$)</label>
+                    <input type="number" id="editProductPrice" step="0.01" required class="w-full p-2 border rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Desconto (%)</label>
+                    <input type="number" id="editProductDiscount" min="0" max="100" class="w-full p-2 border rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Categoria</label>
+                    <select id="editProductCategory" required class="w-full p-2 border rounded">
+                        <option value="Eletrônicos">Eletrônicos</option>
+                        <option value="Moda">Moda</option>
+                        <option value="Casa">Casa</option>
+                        <option value="Esportes">Esportes</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Condição</label>
+                    <select id="editProductCondition" required class="w-full p-2 border rounded">
+                        <option value="Novo">Novo</option>
+                        <option value="Usado">Usado</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Imagem (URL)</label>
+                    <input type="url" id="editProductImage" required class="w-full p-2 border rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1">Descrição</label>
+                    <textarea id="editProductDescription" required class="w-full p-2 border rounded"></textarea>
+                </div>
+                <div class="flex justify-end space-x-2">
+                    <button type="button" id="cancelEditProduct" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Salvar</button>
+                </div>
+            </form>
         </div>
     </div>
-    <div id="adminPanel" class="hidden min-h-screen">
-        <header class="bg-gradient-to-r from-blue-900 to-orange-500 text-white py-4 sticky top-0 z-50">
-            <div class="container mx-auto px-4 flex justify-between items-center">
-                <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-orange-500">Painel de Administração - Sam Ofertas</h1>
-                <button id="logoutButton" class="bg-orange-600 px-4 py-2 rounded-full hover:bg-orange-700">Sair</button>
-            </div>
-        </header>
-        <div class="container mx-auto px-4 py-8">
-            <h2 class="text-xl font-bold mb-4 text-blue-900">Vincular Anúncio</h2>
-            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-                <input type="text" id="affiliateLink" class="w-full p-3 mb-4 border rounded-lg" placeholder="Cole o link de afiliado (ex.: https://mercadolivre.com/sec/1KHSypu)">
-                <select id="categorySelect" class="w-full p-3 mb-4 border rounded-lg">
-                    <option value="Melhores Achados">Melhores Achados</option>
-                    <option value="Eletrônicos">Eletrônicos</option>
-                    <option value="Cosméticos">Cosméticos</option>
-                    <option value="Casa">Casa</option>
-                    <option value="Acessórios">Acessórios</option>
-                </select>
-                <button id="fetchProductButton" class="bg-orange-500 text-white px-4 py-2 rounded-full w-full hover:bg-orange-600">Buscar Dados</button>
-                <p id="fetchError" class="text-red-500 text-sm mt-2 hidden">Erro ao buscar dados. Verifique o link.</p>
-            </div>
-            <div id="productPreview" class="bg-white p-6 rounded-lg shadow-md mb-6 hidden">
-                <h3 class="text-lg font-semibold mb-2 text-blue-900">Pré-visualização do Produto</h3>
-                <img id="productImage" class="w-full h-48 object-cover mb-4 rounded" src="" alt="Foto do produto">
-                <p id="productTitle" class="text-lg font-semibold"></p>
-                <p id="productPrice" class="text-blue-900 font-bold"></p>
-                <p id="productDescription" class="text-gray-600"></p>
-                <button id="saveProductButton" class="bg-green-500 text-white px-4 py-2 rounded-full mt-4 hover:bg-green-600">Salvar Anúncio</button>
-            </div>
-            <h2 class="text-xl font-bold mb-4 text-blue-900">Anúncios Vinculados</h2>
-            <div id="productList" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-        </div>
-    </div>
-    <script src="admin.js"></script>
+
+    <!-- JavaScript -->
+    <script>
+        // Load products from localStorage
+        let products = JSON.parse(localStorage.getItem('samStoreProducts')) || [
+            {
+                id: 1,
+                title: "Smartphone XYZ 128GB",
+                price: 1999.99,
+                discount: 10,
+                category: "Eletrônicos",
+                condition: "Novo",
+                image: "https://via.placeholder.com/200",
+                description: "Smartphone com 128GB de armazenamento, câmera de 48MP."
+            },
+            {
+                id: 2,
+                title: "Tênis Esportivo Nike",
+                price: 399.99,
+                discount: 0,
+                category: "Esportes",
+                condition: "Novo",
+                image: "https://via.placeholder.com/200",
+                description: "Tênis confortável para corridas e treinos."
+            }
+        ];
+
+        // Save products to localStorage
+        function saveProducts() {
+            localStorage.setItem('samStoreProducts', JSON.stringify(products));
+        }
+
+        // Render product table
+        function renderProductTable() {
+            const tableBody = document.getElementById('productTableBody');
+            tableBody.innerHTML = '';
+            products.forEach(product => {
+                const row = `
+                    <tr>
+                        <td class="p-2">${product.id}</td>
+                        <td class="p-2">${product.title}</td>
+                        <td class="p-2">R$ ${product.price.toFixed(2)}</td>
+                        <td class="p-2">${product.discount}%</td>
+                        <td class="p-2">${product.category}</td>
+                        <td class="p-2">${product.condition}</td>
+                        <td class="p-2">
+                            <button class="editProduct bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600" data-id="${product.id}">Editar</button>
+                            <button class="deleteProduct bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600" data-id="${product.id}">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+
+            // Add event listeners for edit and delete buttons
+            document.querySelectorAll('.editProduct').forEach(btn => {
+                btn.addEventListener('click', () => openEditModal(parseInt(btn.dataset.id)));
+            });
+            document.querySelectorAll('.deleteProduct').forEach(btn => {
+                btn.addEventListener('click', () => deleteProduct(parseInt(btn.dataset.id)));
+            });
+        }
+
+        // Login functionality
+        const loginForm = document.getElementById('loginForm');
+        const loginSection = document.getElementById('loginSection');
+        const adminPanel = document.getElementById('adminPanel');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const loginError = document.getElementById('loginError');
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+
+            if (username === 'admin' && password === 'samstore123') {
+                loginSection.classList.add('hidden');
+                adminPanel.classList.remove('hidden');
+                logoutBtn.classList.remove('hidden');
+                renderProductTable();
+            } else {
+                loginError.classList.remove('hidden');
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            loginSection.classList.remove('hidden');
+            adminPanel.classList.add('hidden');
+            logoutBtn.classList.add('hidden');
+            loginForm.reset();
+            loginError.classList.add('hidden');
+        });
+
+        // Add product
+        document.getElementById('addProductForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newProduct = {
+                id: products.length ? Math.max(...products.map(p => p.id)) + 1 : 1,
+                title: document.getElementById('productTitle').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                discount: parseInt(document.getElementById('productDiscount').value) || 0,
+                category: document.getElementById('productCategory').value,
+                condition: document.getElementById('productCondition').value,
+                image: document.getElementById('productImage').value,
+                description: document.getElementById('productDescription').value
+            };
+            products.push(newProduct);
+            saveProducts();
+            renderProductTable();
+            document.getElementById('addProductForm').reset();
+        });
+
+        // Edit product
+        function openEditModal(id) {
+            const product = products.find(p => p.id === id);
+            document.getElementById('editProductId').value = product.id;
+            document.getElementById('editProductTitle').value = product.title;
+            document.getElementById('editProductPrice').value = product.price;
+            document.getElementById('editProductDiscount').value = product.discount;
+            document.getElementById('editProductCategory').value = product.category;
+            document.getElementById('editProductCondition').value = product.condition;
+            document.getElementById('editProductImage').value = product.image;
+            document.getElementById('editProductDescription').value = product.description;
+            document.getElementById('editProductModal').classList.remove('hidden');
+        }
+
+        document.getElementById('editProductForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = parseInt(document.getElementById('editProductId').value);
+            const productIndex = products.findIndex(p => p.id === id);
+            products[productIndex] = {
+                id,
+                title: document.getElementById('editProductTitle').value,
+                price: parseFloat(document.getElementById('editProductPrice').value),
+                discount: parseInt(document.getElementById('editProductDiscount').value) || 0,
+                category: document.getElementById('editProductCategory').value,
+                condition: document.getElementById('editProductCondition').value,
+                image: document.getElementById('editProductImage').value,
+                description: document.getElementById('editProductDescription').value
+            };
+            saveProducts();
+            renderProductTable();
+            document.getElementById('editProductModal').classList.add('hidden');
+        });
+
+        document.getElementById('cancelEditProduct').addEventListener('click', () => {
+            document.getElementById('editProductModal').classList.add('hidden');
+        });
+
+        // Delete product
+        function deleteProduct(id) {
+            if (confirm('Tem certeza que deseja excluir este produto?')) {
+                products = products.filter(p => p.id !== id);
+                saveProducts();
+                renderProductTable();
+            }
+        }
+    </script>
 </body>
 </html>
