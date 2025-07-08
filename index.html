@@ -1,5 +1,3 @@
-```html
-<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -123,7 +121,33 @@
     <!-- JavaScript -->
     <script>
         // Load products and click counts from localStorage
-        let products = JSON.parse(localStorage.getItem('samStoreProducts')) || [];
+        let products = JSON.parse(localStorage.getItem('samStoreProducts')) || [
+            {
+                id: 1,
+                title: "Smartphone Samsung Galaxy A15 128GB 4GB RAM Azul",
+                price: 999.00,
+                discount: 10,
+                category: "Eletrônicos",
+                condition: "Novo",
+                image: "https://http2.mlstatic.com/D_NQ_NP_2X_747743-MLA78902612522_092024-F.webp",
+                link: "https://mercadolivre.com/sec/29k1yKb",
+                description: "Smartphone Samsung Galaxy A15 com 128GB de armazenamento, 4GB de RAM, tela AMOLED 6.5 polegadas, câmera tripla de 50MP, bateria de 5000mAh.",
+                clicks: 0
+            },
+            {
+                id: 2,
+                title: "Tênis Esportivo Nike",
+                price: 399.99,
+                discount: 0,
+                category: "Esportes",
+                condition: "Novo",
+                image: "https://via.placeholder.com/200",
+                link: "https://example.com/tenis",
+                description: "Tênis confortável para corridas e treinos.",
+                clicks: 0
+            }
+        ];
+
         let productClicks = JSON.parse(localStorage.getItem('samStoreProductClicks')) || {};
 
         // Save products and clicks to localStorage
@@ -230,388 +254,6 @@
             }
             renderProducts(sortedProducts);
         });
-    </script>
-</body>
-</html>
-```
-
-#### Painel Administrativo (admin.html)
-O `admin.html` foi atualizado para corrigir o erro tipográfico (`focus:ring-blue-laplha` para `focus:ring-blue-600`) e remover os produtos de exemplo do `localStorage` inicial, garantindo que apenas os produtos adicionados pelo usuário sejam exibidos. A funcionalidade de exportação/importação permanece intacta.
-
-<xaiArtifact artifact_id="de8f01bf-1014-4eb7-bf14-7566898123df" artifact_version_id="81650c31-49dd-498c-bba9-ec4d5151a75a" title="admin.html" contentType="text/html">
-```html
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sam Store - Painel Admin</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="bg-gray-100 font-sans">
-    <!-- Header -->
-    <header class="bg-yellow-400 shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center">
-                <a href="index.html" class="text-2xl font-bold text-gray-800">Sam Store</a>
-            </div>
-            <div>
-                <button id="logoutBtn" class="hidden text-gray-800 hover:text-blue-600"><i class="fas fa-sign-out-alt"></i> Sair</button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Login Section -->
-    <section id="loginSection" class="container mx-auto px-4 py-6 flex justify-center">
-        <div class="bg-white p-6 rounded-lg shadow w-full max-w-md">
-            <h2 class="text-xl font-semibold mb-4 text-gray-800">Login do Administrador</h2>
-            <form id="loginForm" class="grid grid-cols-1 gap-4">
-                <div>
-                    <label class="block mb-2 text-gray-700">Usuário</label>
-                    <input type="text" id="adminUsername" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
-                </div>
-                <div>
-                    <label class="block mb-2 text-gray-700">Senha</label>
-                    <input type="password" id="adminPassword" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
-                </div>
-                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Entrar</button>
-            </form>
-            <p id="loginError" class="text-red-500 mt-2 hidden">Usuário ou senha incorretos.</p>
-        </div>
-    </section>
-
-    <!-- Admin Panel (hidden until login) -->
-    <section id="adminPanel" class="container mx-auto px-4 py-6 hidden">
-        <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-xl font-semibold mb-4 text-gray-800">Painel de Administração - Sam Store</h2>
-            
-            <!-- Export/Import Buttons -->
-            <div class="flex flex-col sm:flex-row gap-4 mb-6">
-                <button id="exportProducts" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Exportar Produtos</button>
-                <label class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer">
-                    Importar Produtos
-                    <input type="file" id="importProducts" accept=".json" class="hidden">
-                </label>
-            </div>
-
-            <!-- Add Product Form -->
-            <div class="mb-8">
-                <h3 class="text-lg font-semibold mb-4 text-gray-800">Adicionar Novo Produto</h3>
-                <form id="addProductForm" class="grid grid-cols-1 gap-4">
-                    <div>
-                        <label class="block mb-2 text-gray-700">Título</label>
-                        <input type="text" id="productTitle" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
-                    </div>
-                    <div>
-                        <label class="block mb-2 text-gray-700">Preço (R$)</label>
-                        <input type="number" id="productPrice" step="0.01" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
-                    </div>
-                    <div>
-                        <label class="block mb-2 text-gray-700">Desconto (%)</label>
-                        <input type="number" id="productDiscount" min="0" max="100" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
-                    </div>
-                    <div>
-                        <label class="block mb-2 text-gray-700">Categoria</label>
-                        <select id="productCategory" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
-                            <option value="Eletrônicos">Eletrônicos</option>
-                            <option value="Moda">Moda</option>
-                            <option value="Casa">Casa</option>
-                            <option value="Esportes">Esportes</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block mb-2 text-gray-700">Condição</label>
-                        <select id="productCondition" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
-                            <option value="Novo">Novo</option>
-                            <option value="Usado">Usado</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block mb-2 text-gray-700">Imagem (URL)</label>
-                        <input type="url" id="productImage" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
-                    </div>
-                    <div>
-                        <label class="block mb-2 text-gray-700">Link do Produto</label>
-                        <input type="url" id="productLink" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
-                    </div>
-                    <div>
-                        <label class="block mb-2 text-gray-700">Descrição</label>
-                        <textarea id="productDescription" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
-                    </div>
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Adicionar Produto</button>
-                </form>
-            </div>
-
-            <!-- Product Management Table -->
-            <h3 class="text-lg font-semibold mb-4 text-gray-800">Gerenciar Produtos</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full table-auto border-collapse">
-                    <thead>
-                        <tr class="bg-gray-200">
-                            <th class="p-3 text-left text-sm sm:text-base">ID</th>
-                            <th class="p-3 text-left text-sm sm:text-base">Título</th>
-                            <th class="p-3 text-left text-sm sm:text-base">Preço</th>
-                            <th class="p-3 text-left text-sm sm:text-base">Desconto</th>
-                            <th class="p-3 text-left text-sm sm:text-base">Categoria</th>
-                            <th class="p-3 text-left text-sm sm:text-base">Condição</th>
-                            <th class="p-3 text-left text-sm sm:text-base">Cliques</th>
-                            <th class="p-3 text-left text-sm sm:text-base">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="productTableBody" class="bg-white">
-                        <!-- Products will be dynamically inserted here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- Edit Product Modal -->
-    <div id="editProductModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
-            <h2 class="text-xl font-semibold mb-4 text-gray-800">Editar Produto</h2>
-            <form id="editProductForm" class="grid grid-cols-1 gap-4">
-                <input type="hidden" id="editProductId">
-                <div>
-                    <label class="block mb-2 text-gray-700">Título</label>
-                    <input type="text" id="editProductTitle" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
-                </div>
-                <div>
-                    <label class="block mb-2 text-gray-700">Preço (R$)</label>
-                    <input type="number" id="editProductPrice" step="0.01" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
-                </div>
-                <div>
-                    <label class="block mb-2 text-gray-700">Desconto (%)</label>
-                    <input type="number" id="editProductDiscount" min="0" max="100" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
-                </div>
-                <div>
-                    <label class="block mb-2 text-gray-700">Categoria</label>
-                    <select id="editProductCategory" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
-                        <option value="Eletrônicos">Eletrônicos</option>
-                        <option value="Moda">Moda</option>
-                        <option value="Casa">Casa</option>
-                        <option value="Esportes">Esportes</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block mb-2 text-gray-700">Condição</label>
-                    <select id="editProductCondition" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
-                        <option value="Novo">Novo</option>
-                        <option value="Usado">Usado</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block mb-2 text-gray-700">Imagem (URL)</label>
-                    <input type="url" id="editProductImage" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
-                </div>
-                <div>
-                    <label class="block mb-2 text-gray-700">Link do Produto</label>
-                    <input type="url" id="editProductLink" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
-                </div>
-                <div>
-                    <label class="block mb-2 text-gray-700">Descrição</label>
-                    <textarea id="editProductDescription" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
-                </div>
-                <div class="flex justify-end space-x-2">
-                    <button type="button" id="cancelEditProduct" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Cancelar</button>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Salvar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- JavaScript -->
-    <script>
-        // Load products and click counts from localStorage
-        let products = JSON.parse(localStorage.getItem('samStoreProducts')) || [];
-        let productClicks = JSON.parse(localStorage.getItem('samStoreProductClicks')) || {};
-
-        // Save products and clicks to localStorage
-        function saveProducts() {
-            localStorage.setItem('samStoreProducts', JSON.stringify(products));
-        }
-
-        function saveClicks() {
-            localStorage.setItem('samStoreProductClicks', JSON.stringify(productClicks));
-        }
-
-        // Export products to JSON file
-        document.getElementById('exportProducts').addEventListener('click', () => {
-            const data = {
-                products: products,
-                productClicks: productClicks
-            };
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'sam_store_data.json';
-            a.click();
-            URL.revokeObjectURL(url);
-            alert('Produtos exportados com sucesso! Transfira o arquivo "sam_store_data.json" para o outro dispositivo.');
-        });
-
-        // Import products from JSON file
-        document.getElementById('importProducts').addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    try {
-                        const data = JSON.parse(e.target.result);
-                        if (data.products && Array.isArray(data.products)) {
-                            products = data.products;
-                            productClicks = data.productClicks || {};
-                            saveProducts();
-                            saveClicks();
-                            renderProductTable();
-                            alert('Produtos importados com sucesso! Verifique a página pública.');
-                        } else {
-                            alert('Arquivo JSON inválido: estrutura de dados incorreta.');
-                        }
-                    } catch (error) {
-                        alert('Erro ao importar o arquivo: ' + error.message);
-                    }
-                };
-                reader.readAsText(file);
-            }
-        });
-
-        // Render product table
-        function renderProductTable() {
-            const tableBody = document.getElementById('productTableBody');
-            tableBody.innerHTML = '';
-            products.forEach(product => {
-                const clickCount = productClicks[product.id] || 0;
-                const row = `
-                    <tr class="border-b hover:bg-gray-50">
-                        <td class="p-3 text-sm sm:text-base">${product.id}</td>
-                        <td class="p-3 text-sm sm:text-base">${product.title}</td>
-                        <td class="p-3 text-sm sm:text-base">R$ ${product.price.toFixed(2)}</td>
-                        <td class="p-3 text-sm sm:text-base">${product.discount}%</td>
-                        <td class="p-3 text-sm sm:text-base">${product.category}</td>
-                        <td class="p-3 text-sm sm:text-base">${product.condition}</td>
-                        <td class="p-3 text-sm sm:text-base">${clickCount}</td>
-                        <td class="p-3 text-sm sm:text-base">
-                            <button class="editProduct bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 mr-2" data-id="${product.id}">Editar</button>
-                            <button class="deleteProduct bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600" data-id="${product.id}">Excluir</button>
-                        </td>
-                    </tr>
-                `;
-                tableBody.innerHTML += row;
-            });
-
-            // Add event listeners for edit and delete buttons
-            document.querySelectorAll('.editProduct').forEach(btn => {
-                btn.addEventListener('click', () => openEditModal(parseInt(btn.dataset.id)));
-            });
-            document.querySelectorAll('.deleteProduct').forEach(btn => {
-                btn.addEventListener('click', () => deleteProduct(parseInt(btn.dataset.id)));
-            });
-        }
-
-        // Login functionality
-        const loginForm = document.getElementById('loginForm');
-        const loginSection = document.getElementById('loginSection');
-        const adminPanel = document.getElementById('adminPanel');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const loginError = document.getElementById('loginError');
-
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const username = document.getElementById('adminUsername').value;
-            const password = document.getElementById('adminPassword').value;
-
-            if (username === 'admin' && password === 'samstore123') {
-                loginSection.classList.add('hidden');
-                adminPanel.classList.remove('hidden');
-                logoutBtn.classList.remove('hidden');
-                renderProductTable();
-            } else {
-                loginError.classList.remove('hidden');
-            }
-        });
-
-        logoutBtn.addEventListener('click', () => {
-            loginSection.classList.remove('hidden');
-            adminPanel.classList.add('hidden');
-            logoutBtn.classList.add('hidden');
-            loginForm.reset();
-            loginError.classList.add('hidden');
-        });
-
-        // Add product
-        document.getElementById('addProductForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const newProduct = {
-                id: products.length ? Math.max(...products.map(p => p.id)) + 1 : 1,
-                title: document.getElementById('productTitle').value,
-                price: parseFloat(document.getElementById('productPrice').value),
-                discount: parseInt(document.getElementById('productDiscount').value) || 0,
-                category: document.getElementById('productCategory').value,
-                condition: document.getElementById('productCondition').value,
-                image: document.getElementById('productImage').value,
-                link: document.getElementById('productLink').value,
-                description: document.getElementById('productDescription').value,
-                clicks: 0
-            };
-            products.push(newProduct);
-            saveProducts();
-            renderProductTable();
-            document.getElementById('addProductForm').reset();
-        });
-
-        // Edit product
-        function openEditModal(id) {
-            const product = products.find(p => p.id === id);
-            document.getElementById('editProductId').value = product.id;
-            document.getElementById('editProductTitle').value = product.title;
-            document.getElementById('editProductPrice').value = product.price;
-            document.getElementById('editProductDiscount').value = product.discount;
-            document.getElementById('editProductCategory').value = product.category;
-            document.getElementById('editProductCondition').value = product.condition;
-            document.getElementById('editProductImage').value = product.image;
-            document.getElementById('editProductLink').value = product.link;
-            document.getElementById('editProductDescription').value = product.description;
-            document.getElementById('editProductModal').classList.remove('hidden');
-        }
-
-        document.getElementById('editProductForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const id = parseInt(document.getElementById('editProductId').value);
-            const productIndex = products.findIndex(p => p.id === id);
-            products[productIndex] = {
-                id,
-                title: document.getElementById('editProductTitle').value,
-                price: parseFloat(document.getElementById('editProductPrice').value),
-                discount: parseInt(document.getElementById('editProductDiscount').value) || 0,
-                category: document.getElementById('editProductCategory').value,
-                condition: document.getElementById('editProductCondition').value,
-                image: document.getElementById('editProductImage').value,
-                link: document.getElementById('editProductLink').value,
-                description: document.getElementById('editProductDescription').value,
-                clicks: products[productIndex].clicks || 0
-            };
-            saveProducts();
-            renderProductTable();
-            document.getElementById('editProductModal').classList.add('hidden');
-        });
-
-        document.getElementById('cancelEditProduct').addEventListener('click', () => {
-            document.getElementById('editProductModal').classList.add('hidden');
-        });
-
-        // Delete product
-        function deleteProduct(id) {
-            if (confirm('Tem certeza que deseja excluir este produto?')) {
-                products = products.filter(p => p.id !== id);
-                delete productClicks[id];
-                saveProducts();
-                saveClicks();
-                renderProductTable();
-            }
-        }
     </script>
 </body>
 </html>
