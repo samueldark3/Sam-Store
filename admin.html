@@ -24,12 +24,12 @@
     <section id="loginSection" class="container mx-auto px-4 py-6 flex justify-center">
         <div class="bg-white p-6 rounded-lg shadow w-full max-w-md">
             <h2 class="text-xl font-semibold mb-4 text-gray-800">Login do Administrador</h2>
-            <form id="loginForm">
-                <div class="mb-4">
+            <form id="loginForm" class="grid grid-cols-1 gap-4">
+                <div>
                     <label class="block mb-2 text-gray-700">Usuário</label>
                     <input type="text" id="adminUsername" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
                 </div>
-                <div class="mb-4">
+                <div>
                     <label class="block mb-2 text-gray-700">Senha</label>
                     <input type="password" id="adminPassword" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
                 </div>
@@ -41,7 +41,7 @@
 
     <!-- Admin Panel (hidden until login) -->
     <section id="adminPanel" class="container mx-auto px-4 py-6 hidden">
-        <div class="bg-white p-6 rounded-lg shadow mb-6">
+        <div class="bg-white p-6 rounded-lg shadow">
             <h2 class="text-xl font-semibold mb-4 text-gray-800">Painel de Administração - Sam Store</h2>
             
             <!-- Add Product Form -->
@@ -98,14 +98,14 @@
                 <table class="w-full table-auto border-collapse">
                     <thead>
                         <tr class="bg-gray-200">
-                            <th class="p-3 text-left">ID</th>
-                            <th class="p-3 text-left">Título</th>
-                            <th class="p-3 text-left">Preço</th>
-                            <th class="p-3 text-left">Desconto</th>
-                            <th class="p-3 text-left">Categoria</th>
-                            <th class="p-3 text-left">Condição</th>
-                            <th class="p-3 text-left">Cliques</th>
-                            <th class="p-3 text-left">Ações</th>
+                            <th class="p-3 text-left text-sm sm:text-base">ID</th>
+                            <th class="p-3 text-left text-sm sm:text-base">Título</th>
+                            <th class="p-3 text-left text-sm sm:text-base">Preço</th>
+                            <th class="p-3 text-left text-sm sm:text-base">Desconto</th>
+                            <th class="p-3 text-left text-sm sm:text-base">Categoria</th>
+                            <th class="p-3 text-left text-sm sm:text-base">Condição</th>
+                            <th class="p-3 text-left text-sm sm:text-base">Cliques</th>
+                            <th class="p-3 text-left text-sm sm:text-base">Ações</th>
                         </tr>
                     </thead>
                     <tbody id="productTableBody" class="bg-white">
@@ -118,7 +118,7 @@
 
     <!-- Edit Product Modal -->
     <div id="editProductModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-lg w-full max-w-md">
+        <div class="bg-white p-6 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
             <h2 class="text-xl font-semibold mb-4 text-gray-800">Editar Produto</h2>
             <form id="editProductForm" class="grid grid-cols-1 gap-4">
                 <input type="hidden" id="editProductId">
@@ -219,14 +219,14 @@
                 const clickCount = productClicks[product.id] || 0;
                 const row = `
                     <tr class="border-b hover:bg-gray-50">
-                        <td class="p-3">${product.id}</td>
-                        <td class="p-3">${product.title}</td>
-                        <td class="p-3">R$ ${product.price.toFixed(2)}</td>
-                        <td class="p-3">${product.discount}%</td>
-                        <td class="p-3">${product.category}</td>
-                        <td class="p-3">${product.condition}</td>
-                        <td class="p-3">${clickCount}</td>
-                        <td class="p-3">
+                        <td class="p-3 text-sm sm:text-base">${product.id}</td>
+                        <td class="p-3 text-sm sm:text-base">${product.title}</td>
+                        <td class="p-3 text-sm sm:text-base">R$ ${product.price.toFixed(2)}</td>
+                        <td class="p-3 text-sm sm:text-base">${product.discount}%</td>
+                        <td class="p-3 text-sm sm:text-base">${product.category}</td>
+                        <td class="p-3 text-sm sm:text-base">${product.condition}</td>
+                        <td class="p-3 text-sm sm:text-base">${clickCount}</td>
+                        <td class="p-3 text-sm sm:text-base">
                             <button class="editProduct bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 mr-2" data-id="${product.id}">Editar</button>
                             <button class="deleteProduct bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600" data-id="${product.id}">Excluir</button>
                         </td>
