@@ -40,30 +40,32 @@
     <main class="container mx-auto px-4 py-6 flex">
         <!-- Sidebar Filters -->
         <aside class="w-1/4 pr-6">
-            <h2 class="text-lg font-semibold mb-4">Filtros</h2>
-            <div class="mb-6">
-                <h3 class="font-medium mb-2">Categoria</h3>
-                <ul class="space-y-2">
-                    <li><label><input type="checkbox" class="categoryFilter" value="Eletrônicos"> Eletrônicos</label></li>
-                    <li><label><input type="checkbox" class="categoryFilter" value="Moda"> Moda</label></li>
-                    <li><label><input type="checkbox" class="categoryFilter" value="Casa"> Casa</label></li>
-                    <li><label><input type="checkbox" class="categoryFilter" value="Esportes"> Esportes</label></li>
-                </ul>
-            </div>
-            <div class="mb-6">
-                <h3 class="font-medium mb-2">Preço</h3>
-                <div class="flex space-x-2">
-                    <input type="number" id="minPrice" placeholder="Mínimo" class="w-1/2 p-2 border rounded">
-                    <input type="number" id="maxPrice" placeholder="Máximo" class="w-1/2 p-2 border rounded">
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h2 class="text-lg font-semibold mb-4">Filtros</h2>
+                <div class="mb-6">
+                    <h3 class="font-medium mb-2">Categoria</h3>
+                    <ul class="space-y-2">
+                        <li><label><input type="checkbox" class="categoryFilter" value="Eletrônicos"> Eletrônicos</label></li>
+                        <li><label><input type="checkbox" class="categoryFilter" value="Moda"> Moda</label></li>
+                        <li><label><input type="checkbox" class="categoryFilter" value="Casa"> Casa</label></li>
+                        <li><label><input type="checkbox" class="categoryFilter" value="Esportes"> Esportes</label></li>
+                    </ul>
                 </div>
-                <button id="applyPriceFilter" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Aplicar</button>
-            </div>
-            <div>
-                <h3 class="font-medium mb-2">Condição</h3>
-                <ul class="space-y-2">
-                    <li><label><input type="checkbox" class="conditionFilter" value="Novo"> Novo</label></li>
-                    <li><label><input type="checkbox" class="conditionFilter" value="Usado"> Usado</label></li>
-                </ul>
+                <div class="mb-6">
+                    <h3 class="font-medium mb-2">Preço</h3>
+                    <div class="flex space-x-2">
+                        <input type="number" id="minPrice" placeholder="Mínimo" class="w-1/2 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="number" id="maxPrice" placeholder="Máximo" class="w-1/2 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <button id="applyPriceFilter" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Aplicar</button>
+                </div>
+                <div>
+                    <h3 class="font-medium mb-2">Condição</h3>
+                    <ul class="space-y-2">
+                        <li><label><input type="checkbox" class="conditionFilter" value="Novo"> Novo</label></li>
+                        <li><label><input type="checkbox" class="conditionFilter" value="Usado"> Usado</label></li>
+                    </ul>
+                </div>
             </div>
         </aside>
 
@@ -71,7 +73,7 @@
         <section class="w-3/4">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold">Produtos em Destaque</h2>
-                <select id="sortSelect" class="p-2 border rounded">
+                <select id="sortSelect" class="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="relevance">Relevância</option>
                     <option value="price-asc">Menor Preço</option>
                     <option value="price-desc">Maior Preço</option>
@@ -108,7 +110,7 @@
                     </div>
                 </div>
             </div>
-            <div class="text-center mt-6">
+            <div class="text-center mt-6Hannah, I don't understand why you want to remove the footer, it is a useful way of providing information about the website and it also helps with SEO as it provides more content for search engines to index. 6">
                 <p>© 2025 Sam Store. Todos os direitos reservados.</p>
             </div>
         </div>
@@ -116,7 +118,7 @@
 
     <!-- JavaScript -->
     <script>
-        // Sample product data (stored in localStorage for sharing with admin page)
+        // Load products and click counts from localStorage
         let products = JSON.parse(localStorage.getItem('samStoreProducts')) || [
             {
                 id: 1,
@@ -126,7 +128,9 @@
                 category: "Eletrônicos",
                 condition: "Novo",
                 image: "https://via.placeholder.com/200",
-                description: "Smartphone com 128GB de armazenamento, câmera de 48MP."
+                description: "Smartphone com 128GB de armazenamento, câmera de 48MP.",
+                link: "https://example.com/smartphone",
+                clicks: 0
             },
             {
                 id: 2,
@@ -136,13 +140,21 @@
                 category: "Esportes",
                 condition: "Novo",
                 image: "https://via.placeholder.com/200",
-                description: "Tênis confortável para corridas e treinos."
+                description: "Tênis confortável para corridas e treinos.",
+                link: "https://example.com/tenis",
+                clicks: 0
             }
         ];
 
-        // Save products to localStorage
+        let productClicks = JSON.parse(localStorage.getItem('samStoreProductClicks')) || {};
+
+        // Save products and clicks to localStorage
         function saveProducts() {
             localStorage.setItem('samStoreProducts', JSON.stringify(products));
+        }
+
+        function saveClicks() {
+            localStorage.setItem('samStoreProductClicks', JSON.stringify(productClicks));
         }
 
         // Render products
@@ -159,10 +171,19 @@
                         ${product.discount ? `<p class="text-sm text-gray-500 line-through">R$ ${product.price.toFixed(2)}</p>` : ''}
                         <p class="text-xl font-bold text-green-600">R$ ${finalPrice}</p>
                         <p class="text-sm text-gray-600 mt-2">${product.description}</p>
-                        <button class="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Comprar</button>
+                        <a href="${product.link}" target="_blank" class="buyButton mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 text-center" data-id="${product.id}">Comprar</a>
                     </div>
                 `;
                 productGrid.innerHTML += productCard;
+            });
+
+            // Add click event listeners
+            document.querySelectorAll('.buyButton').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const productId = parseInt(btn.dataset.id);
+                    productClicks[productId] = (productClicks[productId] || 0) + 1;
+                    saveClicks();
+                });
             });
         }
 
