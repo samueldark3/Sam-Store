@@ -1,0 +1,40 @@
+/* Estilos personalizados para Sam Ofertas */
+body {
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    font-family: 'Lato', sans-serif;
+}
+
+.font-lato {
+    font-family: 'Lato', sans-serif;
+}
+
+button, a {
+    transition: all 0.3s ease;
+}
+
+.cartButton:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 640px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+    h2 {
+        font-size: 1.75rem;
+    }
+    .social-post {
+        width: 100%;
+        height: auto;
+    }
+}
+
+/* Efeito de vidro para seção do app */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
