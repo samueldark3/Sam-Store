@@ -3,190 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sam Ofertas - As Melhores Ofertas Online</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <title>Sam Store - Sua Loja Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="font-lato text-gray-800 bg-gray-100">
+<body class="bg-gray-100 font-sans">
     <!-- Header -->
-    <header class="bg-gradient-to-r from-blue-900 to-orange-500 text-white sticky top-0 z-50">
-        <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
-            <!-- Logo -->
-            <div class="flex items-center space-x-2">
-                <div class="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center relative">
-                    <span class="text-white text-xl font-bold">SO</span>
-                    <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-orange-500 rounded-full"></div>
-                </div>
-                <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-orange-500">Sam Ofertas</h1>
+    <header class="bg-yellow-400 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="#" class="text-2xl font-bold text-gray-800">Sam Store</a>
             </div>
-            <!-- Menu -->
-            <div class="hidden md:flex space-x-6">
-                <a href="#home" class="hover:text-orange-500">Início</a>
-                <a href="#categories" class="hover:text-orange-500">Categorias</a>
-                <a href="#offers" class="hover:text-orange-500">Ofertas</a>
-                <a href="admin.html" class="hover:text-orange-500">Admin</a>
-            </div>
-            <!-- Ícones -->
-            <div class="flex items-center space-x-4">
+            <div class="w-1/2">
                 <div class="relative">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <input type="text" id="searchInput" placeholder="Buscar produtos..." class="w-full p-2 pl-10 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-500"></i>
                 </div>
-                <button id="menuToggle" class="md:hidden focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                </button>
+            </div>
+            <div>
+                <a href="admin.html" class="text-gray-800 hover:text-blue-600"><i class="fas fa-user-shield"></i> Admin</a>
+            </div>
+        </div>
+        <nav class="bg-gray-800 text-white">
+            <div class="container mx-auto px-4 py-2">
+                <ul class="flex space-x-6">
+                    <li><a href="#" class="hover:text-yellow-400">Início</a></li>
+                    <li><a href="#" class="hover:text-yellow-400">Ofertas</a></li>
+                    <li><a href="#" class="hover:text-yellow-400">Categorias</a></li>
+                    <li><a href="#" class="hover:text-yellow-400">Ajuda</a></li>
+                </ul>
             </div>
         </nav>
-        <!-- Menu Mobile -->
-        <div id="mobileMenu" class="hidden md:hidden bg-blue-900 text-white px-4 py-2">
-            <a href="#home" class="block py-2 hover:text-orange-500">Início</a>
-            <a href="#categories" class="block py-2 hover:text-orange-500">Categorias</a>
-            <a href="#offers" class="block py-2 hover:text-orange-500">Ofertas</a>
-            <a href="admin.html" class="block py-2 hover:text-orange-500">Admin</a>
-        </div>
     </header>
 
-    <!-- Banner -->
-    <section id="home" class="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-16 relative">
-        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
-            <div class="md:w-1/2 text-center md:text-left">
-                <h2 class="text-4xl font-bold mb-4">As melhores ofertas estão aqui!</h2>
-                <p class="text-lg mb-6">Descubra produtos incríveis com descontos exclusivos na Sam Ofertas.</p>
-                <a href="#offers" class="bg-orange-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-orange-600">Ver Ofertas</a>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6 flex">
+        <!-- Sidebar Filters -->
+        <aside class="w-1/4 pr-6">
+            <h2 class="text-lg font-semibold mb-4">Filtros</h2>
+            <div class="mb-6">
+                <h3 class="font-medium mb-2">Categoria</h3>
+                <ul class="space-y-2">
+                    <li><label><input type="checkbox" class="categoryFilter" value="Eletrônicos"> Eletrônicos</label></li>
+                    <li><label><input type="checkbox" class="categoryFilter" value="Moda"> Moda</label></li>
+                    <li><label><input type="checkbox" class="categoryFilter" value="Casa"> Casa</label></li>
+                    <li><label><input type="checkbox" class="categoryFilter" value="Esportes"> Esportes</label></li>
+                </ul>
             </div>
-            <div class="md:w-1/2 mt-8 md:mt-0 flex justify-center">
-                <svg class="w-64 h-64" viewBox="0 0 100 100">
-                    <rect x="20" y="30" width="60" height="40" fill="#ff6b35" rx="5"/>
-                    <text x="35" y="55" fill="white" font-size="14" font-weight="bold">SALE</text>
-                    <circle cx="30" cy="20" r="5" fill="rgba(255,255,255,0.2)"/>
-                    <circle cx="70" cy="80" r="8" fill="rgba(255,255,255,0.2)"/>
-                </svg>
+            <div class="mb-6">
+                <h3 class="font-medium mb-2">Preço</h3>
+                <div class="flex space-x-2">
+                    <input type="number" id="minPrice" placeholder="Mínimo" class="w-1/2 p-2 border rounded">
+                    <input type="number" id="maxPrice" placeholder="Máximo" class="w-1/2 p-2 border rounded">
+                </div>
+                <button id="applyPriceFilter" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Aplicar</button>
             </div>
-        </div>
-        <div class="absolute inset-0 opacity-10">
-            <circle cx="10%" cy="20%" r="100" fill="white"/>
-            <circle cx="90%" cy="80%" r="150" fill="white"/>
-        </div>
-    </section>
+            <div>
+                <h3 class="font-medium mb-2">Condição</h3>
+                <ul class="space-y-2">
+                    <li><label><input type="checkbox" class="conditionFilter" value="Novo"> Novo</label></li>
+                    <li><label><input type="checkbox" class="conditionFilter" value="Usado"> Usado</label></li>
+                </ul>
+            </div>
+        </aside>
 
-    <!-- Melhores Achados -->
-    <section id="best-finds" class="py-16 bg-gradient-to-r from-orange-500 to-orange-700 text-white">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold">Melhores Achados</h2>
-                <a href="#best-finds" class="text-white hover:text-blue-900">Ver todos</a>
+        <!-- Product Grid -->
+        <section class="w-3/4">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Produtos em Destaque</h2>
+                <select id="sortSelect" class="p-2 border rounded">
+                    <option value="relevance">Relevância</option>
+                    <option value="price-asc">Menor Preço</option>
+                    <option value="price-desc">Maior Preço</option>
+                </select>
             </div>
-            <div id="bestFindsProducts" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
-        </div>
-    </section>
-
-    <!-- Setores -->
-    <section id="categories" class="py-16">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-8">Categorias Populares</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition">
-                    <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                    </div>
-                    <h3 class="text-xl font-semibold">Eletrônicos</h3>
-                    <p class="text-gray-600">Smartphones, laptops e mais.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition">
-                    <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M7 11h4m2 0h4M7 15h10"/></svg>
-                    </div>
-                    <h3 class="text-xl font-semibold">Cosméticos</h3>
-                    <p class="text-gray-600">Maquiagem e cuidados pessoais.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition">
-                    <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                    </div>
-                    <h3 class="text-xl font-semibold">Casa</h3>
-                    <p class="text-gray-600">Decoração e utilidades domésticas.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition">
-                    <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
-                    </div>
-                    <h3 class="text-xl font-semibold">Acessórios</h3>
-                    <p class="text-gray-600">Joias, relógios e mais.</p>
-                </div>
+            <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Products will be dynamically inserted here -->
             </div>
-        </div>
-    </section>
-
-    <!-- Produtos por Setor -->
-    <section id="offers" class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-8">Ofertas por Setor</h2>
-            <div id="electronicsSection" class="mb-12">
-                <h3 class="text-2xl font-semibold mb-4">Eletrônicos</h3>
-                <div id="electronicsProducts" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
-            </div>
-            <div id="cosmeticsSection" class="mb-12">
-                <h3 class="text-2xl font-semibold mb-4">Cosméticos</h3>
-                <div id="cosmeticsProducts" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
-            </div>
-            <div id="homeSection" class="mb-12">
-                <h3 class="text-2xl font-semibold mb-4">Casa</h3>
-                <div id="homeProducts" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
-            </div>
-            <div id="accessoriesSection">
-                <h3 class="text-2xl font-semibold mb-4">Acessórios</h3>
-                <div id="accessoriesProducts" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
-            </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="bg-blue-900 text-white py-12">
-        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-                <div class="flex items-center space-x-2 mb-4">
-                    <div class="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center relative border border-white">
-                        <span class="text-white text-xl font-bold">SO</span>
-                        <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-orange-500 rounded-full"></div>
-                    </div>
-                    <h3 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-orange-500">Sam Ofertas</h3>
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <h3 class="text-lg font-semibold mb-2">Sam Store</h3>
+                    <p>Sua loja online de produtos diversos com qualidade e confiança.</p>
                 </div>
-                <p class="text-sm">A Sam Ofertas é sua vitrine online para encontrar as melhores promoções em eletrônicos, cosméticos, casa e muito mais.</p>
+                <div>
+                    <h3 class="text-lg font-semibold mb-2">Links Úteis</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-yellow-400">Política de Privacidade</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Termos de Uso</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Contato</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-2">Siga-nos</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-yellow-400"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="hover:text-yellow-400"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="hover:text-yellow-400"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h4 class="text-lg font-semibold mb-4">Links Rápidos</h4>
-                <ul class="space-y-2">
-                    <li><a href="#home" class="hover:text-orange-500">Início</a></li>
-                    <li><a href="#categories" class="hover:text-orange-500">Categorias</a></li>
-                    <li><a href="#offers" class="hover:text-orange-500">Ofertas</a></li>
-                    <li><a href="admin.html" class="hover:text-orange-500">Admin</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-lg font-semibold mb-4">Categorias</h4>
-                <ul class="space-y-2">
-                    <li><a href="#electronicsSection" class="hover:text-orange-500">Eletrônicos</a></li>
-                    <li><a href="#cosmeticsSection" class="hover:text-orange-500">Cosméticos</a></li>
-                    <li><a href="#homeSection" class="hover:text-orange-500">Casa</a></li>
-                    <li><a href="#accessoriesSection" class="hover:text-orange-500">Acessórios</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-lg font-semibold mb-4">Contato</h4>
-                <p class="text-sm">Rua das Ofertas, 123, São Paulo, SP</p>
-                <p class="text-sm">Email: contato@samofertas.com</p>
-                <p class="text-sm">Telefone: (11) 1234-5678</p>
-            </div>
-        </div>
-        <div class="container mx-auto px-4 mt-8 border-t border-gray-700 pt-4 flex flex-col md:flex-row justify-between items-center">
-            <p class="text-sm">© 2025 Sam Ofertas. Todos os direitos reservados.</p>
-            <div class="flex space-x-4 mt-4 md:mt-0">
-                <a href="#" class="hover:text-orange-500">Política de Privacidade</a>
-                <a href="#" class="hover:text-orange-500">Termos de Uso</a>
+            <div class="text-center mt-6">
+                <p>© 2025 Sam Store. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- JavaScript -->
+    <script>
+        // Sample product data (stored in localStorage for sharing with admin page)
+        let products = JSON.parse(localStorage.getItem('samStoreProducts')) || [
+            {
+                id: 1,
+                title: "Smartphone XYZ 128GB",
+                price: 1999.99,
+                discount: 10,
+                category: "Eletrônicos",
+                condition: "Novo",
+                image: "https://via.placeholder.com/200",
+                description: "Smartphone com 128GB de armazenamento, câmera de 48MP."
+            },
+            {
+                id: 2,
+                title: "Tênis Esportivo Nike",
+                price: 399.99,
+                discount: 0,
+                category: "Esportes",
+                condition: "Novo",
+                image: "https://via.placeholder.com/200",
+                description: "Tênis confortável para corridas e treinos."
+            }
+        ];
+
+        // Save products to localStorage
+        function saveProducts() {
+            localStorage.setItem('samStoreProducts', JSON.stringify(products));
+        }
+
+        // Render products
+        function renderProducts(filteredProducts = products) {
+            const productGrid = document.getElementById('productGrid');
+            productGrid.innerHTML = '';
+            filteredProducts.forEach(product => {
+                const finalPrice = product.discount ? (product.price * (1 - product.discount / 100)).toFixed(2) : product.price.toFixed(2);
+                const productCard = `
+                    <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
+                        <img src="${product.image}" alt="${product.title}" class="w-full h-48 object-cover rounded mb-4">
+                        <h3 class="text-lg font-semibold">${product.title}</h3>
+                        <p class="text-sm text-gray-600">${product.category} - ${product.condition}</p>
+                        ${product.discount ? `<p class="text-sm text-gray-500 line-through">R$ ${product.price.toFixed(2)}</p>` : ''}
+                        <p class="text-xl font-bold text-green-600">R$ ${finalPrice}</p>
+                        <p class="text-sm text-gray-600 mt-2">${product.description}</p>
+                        <button class="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Comprar</button>
+                    </div>
+                `;
+                productGrid.innerHTML += productCard;
+            });
+        }
+
+        // Initial render
+        renderProducts();
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredProducts = products.filter(product =>
+                product.title.toLowerCase().includes(searchTerm) ||
+                product.description.toLowerCase().includes(searchTerm)
+            );
+            renderProducts(filteredProducts);
+        });
+
+        // Filter functionality
+        function applyFilters() {
+            const selectedCategories = Array.from(document.querySelectorAll('.categoryFilter:checked')).map(el => el.value);
+            const selectedConditions = Array.from(document.querySelectorAll('.conditionFilter:checked')).map(el => el.value);
+            const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
+            const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
+
+            const filteredProducts = products.filter(product => {
+                const finalPrice = product.discount ? product.price * (1 - product.discount / 100) : product.price;
+                return (
+                    (selectedCategories.length === 0 || selectedCategories.includes(product.category)) &&
+                    (selectedConditions.length === 0 || selectedConditions.includes(product.condition)) &&
+                    finalPrice >= minPrice &&
+                    finalPrice <= maxPrice
+                );
+            });
+            renderProducts(filteredProducts);
+        }
+
+        document.querySelectorAll('.categoryFilter, .conditionFilter').forEach(filter => {
+            filter.addEventListener('change', applyFilters);
+        });
+
+        document.getElementById('applyPriceFilter').addEventListener('click', applyFilters);
+
+        // Sort functionality
+        document.getElementById('sortSelect').addEventListener('change', (e) => {
+            const sortValue = e.target.value;
+            let sortedProducts = [...products];
+            if (sortValue === 'price-asc') {
+                sortedProducts.sort((a, b) => {
+                    const priceA = a.discount ? a.price * (1 - a.discount / 100) : a.price;
+                    const priceB = b.discount ? b.price * (1 - b.discount / 100) : b.price;
+                    return priceA - priceB;
+                });
+            } else if (sortValue === 'price-desc') {
+                sortedProducts.sort((a, b) => {
+                    const priceA = a.discount ? a.price * (1 - a.discount / 100) : a.price;
+                    const priceB = b.discount ? b.price * (1 - b.discount / 100) : b.price;
+                    return priceB - priceA;
+                });
+            }
+            renderProducts(sortedProducts);
+        });
+    </script>
 </body>
 </html>
