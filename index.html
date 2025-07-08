@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -123,33 +123,7 @@
     <!-- JavaScript -->
     <script>
         // Load products and click counts from localStorage
-        let products = JSON.parse(localStorage.getItem('samStoreProducts')) || [
-            {
-                id: 1,
-                title: "Smartphone Samsung Galaxy A15 128GB 4GB RAM Azul",
-                price: 999.00,
-                discount: 10,
-                category: "Eletrônicos",
-                condition: "Novo",
-                image: "https://http2.mlstatic.com/D_NQ_NP_2X_747743-MLA78902612522_092024-F.webp",
-                link: "https://mercadolivre.com/sec/29k1yKb",
-                description: "Smartphone Samsung Galaxy A15 com 128GB de armazenamento, 4GB de RAM, tela AMOLED 6.5 polegadas, câmera tripla de 50MP, bateria de 5000mAh.",
-                clicks: 0
-            },
-            {
-                id: 2,
-                title: "Tênis Esportivo Nike",
-                price: 399.99,
-                discount: 0,
-                category: "Esportes",
-                condition: "Novo",
-                image: "https://via.placeholder.com/200",
-                link: "https://example.com/tenis",
-                description: "Tênis confortável para corridas e treinos.",
-                clicks: 0
-            }
-        ];
-
+        let products = JSON.parse(localStorage.getItem('samStoreProducts')) || [];
         let productClicks = JSON.parse(localStorage.getItem('samStoreProductClicks')) || {};
 
         // Save products and clicks to localStorage
@@ -261,10 +235,10 @@
 </html>
 ```
 
-#### Painel Administrativo Atualizado (admin.html)
-O `admin.html` foi modificado para incluir botões de "Exportar Produtos" e "Importar Produtos", permitindo a sincronização manual dos dados do `localStorage` entre dispositivos. O campo de link do Mercado Livre e o botão "Extrair Dados" foram removidos, já que você decidiu não prosseguir com o scraping por agora.
+#### Painel Administrativo (admin.html)
+O `admin.html` foi atualizado para corrigir o erro tipográfico (`focus:ring-blue-laplha` para `focus:ring-blue-600`) e remover os produtos de exemplo do `localStorage` inicial, garantindo que apenas os produtos adicionados pelo usuário sejam exibidos. A funcionalidade de exportação/importação permanece intacta.
 
-<xaiArtifact artifact_id="de8f01bf-1014-4eb7-bf14-7566898123df" artifact_version_id="c3806678-e40f-4480-9eb8-fb36d4552de1" title="admin.html" contentType="text/html">
+<xaiArtifact artifact_id="de8f01bf-1014-4eb7-bf14-7566898123df" artifact_version_id="81650c31-49dd-498c-bba9-ec4d5151a75a" title="admin.html" contentType="text/html">
 ```html
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -355,7 +329,7 @@ O `admin.html` foi modificado para incluir botões de "Exportar Produtos" e "Imp
                     </div>
                     <div>
                         <label class="block mb-2 text-gray-700">Imagem (URL)</label>
-                        <input type="url" id="productImage" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-laplha">
+                        <input type="url" id="productImage" required class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
                     </div>
                     <div>
                         <label class="block mb-2 text-gray-700">Link do Produto</label>
@@ -450,33 +424,7 @@ O `admin.html` foi modificado para incluir botões de "Exportar Produtos" e "Imp
     <!-- JavaScript -->
     <script>
         // Load products and click counts from localStorage
-        let products = JSON.parse(localStorage.getItem('samStoreProducts')) || [
-            {
-                id: 1,
-                title: "Smartphone Samsung Galaxy A15 128GB 4GB RAM Azul",
-                price: 999.00,
-                discount: 10,
-                category: "Eletrônicos",
-                condition: "Novo",
-                image: "https://http2.mlstatic.com/D_NQ_NP_2X_747743-MLA78902612522_092024-F.webp",
-                link: "https://mercadolivre.com/sec/29k1yKb",
-                description: "Smartphone Samsung Galaxy A15 com 128GB de armazenamento, 4GB de RAM, tela AMOLED 6.5 polegadas, câmera tripla de 50MP, bateria de 5000mAh.",
-                clicks: 0
-            },
-            {
-                id: 2,
-                title: "Tênis Esportivo Nike",
-                price: 399.99,
-                discount: 0,
-                category: "Esportes",
-                condition: "Novo",
-                image: "https://via.placeholder.com/200",
-                link: "https://example.com/tenis",
-                description: "Tênis confortável para corridas e treinos.",
-                clicks: 0
-            }
-        ];
-
+        let products = JSON.parse(localStorage.getItem('samStoreProducts')) || [];
         let productClicks = JSON.parse(localStorage.getItem('samStoreProductClicks')) || {};
 
         // Save products and clicks to localStorage
@@ -501,6 +449,7 @@ O `admin.html` foi modificado para incluir botões de "Exportar Produtos" e "Imp
             a.download = 'sam_store_data.json';
             a.click();
             URL.revokeObjectURL(url);
+            alert('Produtos exportados com sucesso! Transfira o arquivo "sam_store_data.json" para o outro dispositivo.');
         });
 
         // Import products from JSON file
@@ -517,7 +466,7 @@ O `admin.html` foi modificado para incluir botões de "Exportar Produtos" e "Imp
                             saveProducts();
                             saveClicks();
                             renderProductTable();
-                            alert('Produtos importados com sucesso!');
+                            alert('Produtos importados com sucesso! Verifique a página pública.');
                         } else {
                             alert('Arquivo JSON inválido: estrutura de dados incorreta.');
                         }
