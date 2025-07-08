@@ -6,26 +6,28 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileMenu.classList.toggle('hidden');
     });
 
-    // Animação do Botão de Carrinho
-    const cartButtons = document.querySelectorAll('.cartButton');
-    cartButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            button.classList.add('animate-pulse');
-            setTimeout(() => {
-                button.classList.remove('animate-pulse');
-                alert('Produto adicionado ao carrinho!');
-            }, 300);
-        });
-    });
+    // Carregar produtos do LocalStorage
+    const products = JSON.parse(localStorage.getItem('products')) || [];
 
-    // Efeito Hover nas Categorias (gerenciado no CSS, mas garantindo transições suaves)
-    const categoryCards = document.querySelectorAll('#categories .transform');
-    categoryCards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            card.classList.add('hover:shadow-lg', 'hover:-translate-y-1');
-        });
-        card.addEventListener('mouseleave', () => {
-            card.classList.remove('hover:shadow-lg', 'hover:-translate-y-1');
-        });
-    });
+    // Função para renderizar produtos
+    const renderProducts = (containerId, category) => {
+        const container = document.getElementById(containerId);
+        const filteredProducts = products.filter(p => p.category === category);
+        container.innerHTML = filteredProducts.map(product => `
+            <div class="bg-white p-6 rounded-lg shadow-md product-card">
+                <img src="${product.image}" alt="${product.title}" class="w-full h-32 object-cover mb-4 rounded">
+                <h3 class="text-lg font-semibold">${product.title}</h3>
+                <p class="text-gray-600 text-sm">${product.description.slice(0, 50)}...</p>
+                <p class="text-blue-900 font-bold">R$ ${product.price.toFixed(2)}</p>
+                <a href="${product.link}" target="_blank" class="bg-orange-500 text-white px-4 py-2 mt-4 rounded-full hover:bg-orange-600 w-full block text-center">Ver no Mercado Livre</a>
+            </div>
+        `).join('');
+    };
+
+    // Renderizar produtos por setor
+    renderProducts('bestFindsProducts', 'Melhores Achados');
+    renderProducts('electronicsProducts', 'Eletrônicos');
+    renderProducts('cosmeticsProducts', 'Cosméticos');
+    renderProducts('homeProducts', 'Casa');
+    renderProducts('accessoriesProducts', 'Acessórios');
 });
